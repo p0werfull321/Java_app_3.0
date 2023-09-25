@@ -69,16 +69,8 @@ pipeline{
              //   }
             // }
        // }
-        stage('Maven Build : maven'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   runPythonScript(p0werfull321/Test/pipeline.py, artifactory-access-token)
-               }
-            }
-        }
-        stage('Upload To Artifactory'){
+
+         stage('Maven Build : maven'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
@@ -87,6 +79,16 @@ pipeline{
                }
             }
         }
+        stage('Upload To Artifactory'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
+                   runPythonScript(p0werfull321/Test/pipeline.py, artifactory-access-token)
+               }
+            }
+        }
+       
         
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
