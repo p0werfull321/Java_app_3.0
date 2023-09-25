@@ -1,8 +1,14 @@
 @Library('my-shared-library') _
 
 pipeline{
-
+    
     agent any
+
+    environment{
+        CI = true
+        ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
+        JFROG_PASSWORD = credentials('jfrog-password')
+    }
 
     parameters{
 
@@ -68,10 +74,20 @@ pipeline{
             steps{
                script{
                    
+                   runPythonScript(p0werfull321/Test/pipeline.py, artifactory-access-token)
+               }
+            }
+        }
+        stage('Upload To Artifactory'){
+         when { expression {  params.action == 'create' } }
+            steps{
+               script{
+                   
                    mvnBuild()
                }
             }
         }
+        
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
