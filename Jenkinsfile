@@ -76,6 +76,7 @@ pipeline{
         }
 
         stage ("Server") {
+             when { expression {  params.action == 'create' } }
             steps {
                 rtserver (
                     id: "Jfrog",
