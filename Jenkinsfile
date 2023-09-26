@@ -4,10 +4,6 @@ pipeline{
     
     agent any
 
-    environment{
-        CI = true
-        ARTIFACTORY_ACCESS_TOKEN = credentials('artifactory-access-token')
-        JFROG_PASSWORD = credentials('jfrog-password')
     }
 
     parameters{
@@ -79,16 +75,43 @@ pipeline{
                }
             }
         }
-        stage('Upload To Artifactory'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{
-                   
-                   runPythonScript(p0werfull321/Test/pipeline.py, artifactory-access-token)
-               }
+
+        stage ("Server") {
+            steps {
+                rtserver (
+                    id: "Jfrog",
+                    url: "http://18.144.58.137:8082/artifactory",
+                    username: "admin",
+                    password: "jfrog-password",
+                    bypassProxy: true,
+                    timeout: 300
+                )
             }
         }
-       
+
+            stage ("Upload") {
+            steps {
+                rtUpload (
+                serverId: 'Jfrog',
+                spec: '''{
+                "files": [
+                    {
+                      "pattern": "*.jar",
+                      "target": "example-repo-local"
+                    }
+                 ]
+                }''',
+            }
+        }
+     }
+
+    stage ("Publish build info"){
+        steps {
+            rtPublishBuildInfo (
+            serverId: 'Jfrog'
+)
+        }
+    }
         
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
