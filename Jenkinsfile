@@ -4,7 +4,6 @@ pipeline{
     
     agent any
 
-    }
 
     parameters{
 
