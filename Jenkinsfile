@@ -86,7 +86,7 @@ pipeline{
 
                     sh """
                     cd /var/lib/jenkins/.m2/repository/com/minikube/sample/kubernetes-configmap-reload/0.0.1-SNAPSHOT
-                    chmod +x {jarFileName}
+                    chmod +x kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar
                     curl -X PUT -u "admin:H@ck_the_6planet" -T ${jarFileName} ${artifactoryUrl}/${targetPath}
                     """
                 }      
