@@ -79,7 +79,16 @@ pipeline{
              when { expression {  params.action == 'create' } }
             steps {
                 script{
-                     pythonrun()       
+                    def artifactoryUrl = 'http://54.183.67.152:8082/artifactory/'
+                    def artifactoryRepo = 'example- repo-local'
+                    def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
+                    def targetPath = "$(artifactoryRepo/param/)"
+
+                    sh """
+                    cd /var/lib/jenkins/workspace/jfrog-demo/target/
+                    chmod +x {jarFileName}
+                    curl -X PUT -u "admin:H@ck_the_6planet" -T ${jarFileName} ${artifactoryUrl}/${targetPath}
+                    """
                 }      
             }
         }
