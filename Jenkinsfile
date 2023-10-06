@@ -85,7 +85,7 @@ pipeline{
                     def targetPath = '$(artifactoryRepo/param/)'
 
                     sh """
-                    cd /var/lib/jenkins/workspace/test/target/
+                    cd /var/lib/jenkins/.m2/repository/com/minikube/sample/kubernetes-configmap-reload/0.0.1-SNAPSHOT
                     chmod +x {jarFileName}
                     curl -X PUT -u "admin:H@ck_the_6planet" -T ${jarFileName} ${artifactoryUrl}/${targetPath}
                     """
