@@ -75,43 +75,14 @@ pipeline{
             }
         }
 
-        stage ("Server") {
+        stage ("Push JAR to JFROG : python") {
              when { expression {  params.action == 'create' } }
             steps {
-                rtserver (
-                    id: "Jfrog",
-                    url: "http://18.144.58.137:8082/artifactory",
-                    username: "admin",
-                    password: "jfrog-password",
-                    bypassProxy: true,
-                    timeout: 300
-                )
+                script{
+                     pythonrun()       
+                }      
             }
         }
-
-            stage ("Upload") {
-            steps {
-                rtUpload (
-                serverId: 'Jfrog',
-                spec: '''{
-                "files": [
-                    {
-                      "pattern": "*.jar",
-                      "target": "example-repo-local"
-                    }
-                 ]
-                }''',
-            )
-        }
-     }
-
-    stage ("Publish build info"){
-        steps {
-            rtPublishBuildInfo (
-            serverId: 'Jfrog'
-)
-        }
-    }
         
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
