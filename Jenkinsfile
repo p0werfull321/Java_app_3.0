@@ -79,7 +79,7 @@ pipeline{
              when { expression {  params.action == 'create' } }
             steps {
                 script{
-                    def artifactoryUrl = 'http://54.176.51.28/:8082/artifactory/'
+                    def artifactoryUrl = 'http://54.176.51.28:8082/artifactory/'
                     def artifactoryRepo = 'example-repo-local'
                     def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
                     def targetPath = '$(artifactoryRepo/param/)'
