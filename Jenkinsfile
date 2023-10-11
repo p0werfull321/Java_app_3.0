@@ -79,15 +79,15 @@ pipeline{
              when { expression {  params.action == 'create' } }
             steps {
                 script{
-                    def artifactoryUrl = 'http://54.183.67.152:8082/artifactory/'
-                    def artifactoryRepo = 'example- repo-local'
+                    def artifactoryUrl = 'http://54.176.51.28/:8082/artifactory/'
+                    def artifactoryRepo = 'example-repo-local'
                     def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
                     def targetPath = '$(artifactoryRepo/param/)'
 
                     sh """
                     cd /var/lib/jenkins/.m2/repository/com/minikube/sample/kubernetes-configmap-reload/0.0.1-SNAPSHOT
                     chmod +x kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar
-                    curl -X PUT -u "admin:admin" -T ${jarFileName} ${artifactoryUrl}/${targetPath}
+                    curl -X PUT -u "admin:A$cd1234" -T ${jarFileName} ${artifactoryUrl}/${targetPath}
                     """
                 }      
             }
