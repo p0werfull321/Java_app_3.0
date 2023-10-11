@@ -82,7 +82,7 @@ pipeline{
                     def artifactoryUrl = 'http://54.176.51.28:8082/artifactory/'
                     def artifactoryRepo = 'example-repo-local'
                     def jarFileName = 'kubernetes-configmap-reload-0.0.1-SNAPSHOT.jar'
-                    def targetPath = '$(artifactoryRepo/param/)'
+                    def targetPath = 'artifactoryRepo/param/'
 
                     sh """
                     cd /var/lib/jenkins/.m2/repository/com/minikube/sample/kubernetes-configmap-reload/0.0.1-SNAPSHOT
